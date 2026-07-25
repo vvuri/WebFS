@@ -6,7 +6,7 @@ var processor = new CommandProcessor();
 
 while (true)
 {
-    Console.Write("> ");
+    Console.Write("webfs> ");
     var line = Console.ReadLine();
 
     processor.Execute(line);

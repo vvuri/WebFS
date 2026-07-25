@@ -9,6 +9,8 @@ public class CommandProcessor
         _commands = new Dictionary<string, ICommand>()
         {
             { "help", new HelpCommand() },
+            { "clear", new ClearCommand() },
+            { "open", new OpenCommand() },
             { "exit", new ExitCommand() }
         };
     }
