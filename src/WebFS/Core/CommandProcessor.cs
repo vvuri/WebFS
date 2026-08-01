@@ -4,14 +4,15 @@ public class CommandProcessor
 {
     private readonly Dictionary<string, ICommand> _commands;
 
-    public CommandProcessor()
+    public CommandProcessor(SessionContext context)
     {
         _commands = new Dictionary<string, ICommand>()
         {
             { "help", new HelpCommand() },
             { "clear", new ClearCommand() },
-            { "open", new OpenCommand() },
-            { "exit", new ExitCommand() }
+            { "mount", new MountCommand(context) },
+            { "unmount", new UnmountCommand(context) },
+            { "exit", new ExitCommand(context) }
         };
     }
 

@@ -2,7 +2,8 @@
 
 Console.WriteLine("WebFS started.");
 
-var processor = new CommandProcessor();
+var context = new SessionContext();
+var processor = new CommandProcessor(context);
 
 while (true)
 {
