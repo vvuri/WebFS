@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+jobs:
+  test:
+    name: build & test
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '^1.24'
+
+      - name: Cache Go modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ env.HOME }}/go/pkg/mod
+            ${{ env.HOME }}/.cache/buildkit
+          key: ${{ runner.os }}-go-${{ runner.arch }}-${{ hashFiles('go.mod') }}
+          restore-keys: |
+            ${{ runner.os }}-go-${{ runner.arch }}-
+
+      - name: Build
+        run: go build ./...
+
+      - name: Test
+        run: go test ./...
+
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '^1.24'
+
+      - name: Cache Go modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ env.HOME }}/go/pkg/mod
+            ${{ env.HOME }}/.cache/buildkit
+          key: ${{ runner.os }}-go-${{ runner.arch }}-${{ hashFiles('go.mod') }}
+          restore-keys: |
+            ${{ runner.os }}-go-${{ runner.arch }}-
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+
+      - name: Run go vet
+        run: go vet ./...

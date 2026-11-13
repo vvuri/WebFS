@@ -1,3 +1,4 @@
+// Package main is the entry point of the WebFS CLI binary.
 package main
 
 import (

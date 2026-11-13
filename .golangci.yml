@@ -1,0 +1,31 @@
+# This file defines the linting configuration for WebFS.
+version: "2"
+
+run:
+  timeout: 5m
+
+linters:
+  enable:
+    - govet
+    - staticcheck
+    - revive
+    - errcheck
+    - ineffassign
+    - unused
+    - misspell
+    - bodyclose
+    - noctx
+    - gocritic
+    - unconvert
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+
+  settings:
+    gofmt:
+      simplify: true
+    goimports:
+      local-prefixes:
+        - github.com/vvuri/WebFS
